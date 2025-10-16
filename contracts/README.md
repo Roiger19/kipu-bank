@@ -1,51 +1,63 @@
-KipuBank — Contrato Inteligente en Solidity
-Descripción del Proyecto
+KipuBank - Secure Ether Vault
+Overview
+KipuBank is a smart contract on the Ethereum blockchain that functions as a secure, decentralized bank vault for Ether (ETH). It allows users to deposit and withdraw funds into their personal balance while enforcing strict security rules and limits.
 
-KipuBank es un contrato inteligente desarrollado en Solidity como parte del examen práctico del Módulo 2 del curso de ETH.KIPU.
-El objetivo es demostrar la aplicación de los conceptos fundamentales de Solidity y las buenas prácticas de desarrollo seguro en la blockchain de Ethereum.
+The contract is designed with a strong focus on security, gas optimization, and clarity, adhering to the latest best practices in Solidity development. Key features include a global deposit cap to limit total exposure and a per-transaction withdrawal limit to mitigate potential losses.
 
-Este contrato permite a los usuarios:
+Features
+Secure Deposits: Users can deposit ETH into a personal, isolated balance within the contract.
+Capped Withdrawals: Withdrawals are limited by a fixed, immutable amount per transaction, set at deployment.
+Global Vault Limit: The contract enforces a total BANK_CAP, preventing deposits once the vault's total balance reaches this limit.
+Custom Errors: All validations revert with clear, custom errors for a better user and developer experience.
+Event Emission: The contract emits Deposit and Withdrawal events for successful transactions, allowing for easy off-chain tracking.
+Security First: Implements the Checks-Effects-Interactions pattern to prevent re-entrancy attacks.
+Gas Optimization: Uses unchecked blocks for safe arithmetic operations and minimizes state variable access to reduce transaction costs.
+Fully Documented: Comprehensive NatSpec comments for all functions, variables, and events, ensuring full transparency on platforms like Etherscan.
+Getting Started
+Prerequisites
+A web browser with an Ethereum wallet extension like MetaMask.
+Some test ETH on a network like Sepolia.
+Deployment Instructions
+The easiest way to deploy this contract is using the Remix IDE.
 
-Depositar tokens nativos (ETH) en una bóveda personal.
-Retirar fondos respetando un límite máximo fijo por transacción.
-Consultar su balance almacenado en el contrato.
-El sistema mantiene además un límite global de depósitos (bankCap) definido durante el despliegue, y registra los eventos de depósito y retiro junto con la cantidad de operaciones realizadas.
+Open Remix IDE: Navigate to remix.ethereum.org.
+Create File: Create a new file named KipuBank.sol and paste the contract code into it.
+Compile the Contract:
+Go to the "Solidity Compiler" tab (third icon on the left).
+Select a compiler version compatible with ^0.8.20 (e.g., 0.8.24).
+Click the "Compile KipuBank.sol" button. A green checkmark will appear if successful.
+Deploy the Contract:
+Go to the "Deploy & Run Transactions" tab (fourth icon on the left).
+Under "Environment", select "Injected Provider - MetaMask" and connect your wallet. Make sure you are on the correct test network (e.g., Sepolia).
+In the "Contract" dropdown, KipuBank should be selected.
+Next to the "Deploy" button, you need to provide the constructor arguments:
+_withdrawalLimit: The maximum amount (in wei) allowed per withdrawal. For 0.1 ETH, enter: 100000000000000000.
+_bankCap: The total capacity of the bank (in wei). For 10 ETH, enter: 10000000000000000000.
+Click the "transact" button and confirm the transaction in MetaMask.
+Congratulations! Your KipuBank contract is now deployed. You can find its address under the "Deployed Contracts" section in Remix.
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Interacting with the Contract
+Once deployed, you can interact with the contract's functions directly from the Remix interface.
 
-Funcionalidades principales
+Depositing Ether (addFunds)
+The addFunds function is payable, which means you send ETH along with the transaction.
 
-Depósitos: Los usuarios pueden enviar ETH a su cuenta dentro del contrato usando la función deposit().
-Retiros: Los usuarios pueden retirar una cantidad determinada mediante withdraw(amount) respetando el límite máximo por transacción (WITHDRAW_LIMIT).
-Consulta de balance: Cualquier usuario puede consultar su saldo mediante getBalance(address).
-Eventos: Se emiten eventos Deposited y Withdrawn para registrar operaciones exitosas.
-Errores personalizados: El contrato usa errores como CapExceeded, WithdrawLimit, InsufficientFunds para revertir transacciones de forma clara y segura.
-Contadores: Registra la cantidad total de depósitos y retiros realizados.
+In Remix, under "Deployed Contracts", find your KipuBank instance.
+In the VALUE input field (on the left panel), enter the amount of ETH you wish to deposit and select "Ether" from the dropdown.
+Click the orange addFunds button and confirm the transaction in MetaMask.
+Withdrawing Ether (withdraw)
+Find the withdraw function in your deployed contract.
+Enter the amount you wish to withdraw (in wei) into the amount input field.
+Click the withdraw button and confirm the transaction. The funds will be sent to your wallet.
+Viewing Information (Read Functions)
+The blue buttons represent view functions, which are free to call as they only read data from the blockchain.
 
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+getBalance(address user): Check the balance of any user's address.
+checkMyFunds(): A convenience function to check your own balance.
+getBankBalance(): View the total ETH currently held by the contract.
+getAvailableCapacity(): See how much more ETH can be deposited before the BANK_CAP is reached.
+MAX_WITHDRAW_AMOUNT / BANK_CAP: Check the immutable limits set at deployment.
+depositCount / totalTransactionsOut: View the total number of deposit and withdrawal transactions.
+Author
 
-INTERACCIÓN CON EL CONTRATO 
-
-Depositar ETH
-En la sección “Value”, escribir el monto (por ejemplo 0.05) y seleccionar ether.
-Ejecutar la función:
-deposit()
-Resultado: se emite el evento Deposited(user, amount).
-
-Retirar ETH
-Ejecutar:
-withdraw(uint256 amount)
-Ejemplo: 50000000000000000 (0.05 ETH)
-Si se excede el límite o el saldo disponible, la transacción revierte.
-
-Consultar balance
-Ejecutar:
-getBalance(address)
-Ingresar tu dirección para ver tu saldo almacenado.
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-Autor
-
-Juan Pablo — Desarrollador Web3 (Estudiante ETH-KIPU Módulo 2)
-Repositorio: https://github.com/Roiger19/kipu-bank
+Juan Pablo — Web3 Developer (Student, ETH-KIPU Module 2) Repository: https://github.com/Roiger19/kipu-bank
