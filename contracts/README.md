@@ -53,7 +53,7 @@ The easiest way to deploy this contract is using the **Remix IDE**.
 
 -----
 
-## interagindo com o contrato
+## Interacting with the Contract
 
 Once deployed, you can interact with the contract's functions directly from the Remix interface.
 
@@ -89,4 +89,5 @@ The blue buttons represent `view` functions, which are free to call as they only
 **Juan Pablo** — Web3 Developer (Student, ETH-KIPU Module 2)
 
   * **Repository**: [https://github.com/Roiger19/kipu-bank](https://github.com/Roiger19/kipu-bank)
+
 
